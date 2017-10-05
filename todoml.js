@@ -28,6 +28,14 @@ function todoML() {
 
       var line = source[j].replace(/^\s+/, '')
 
+      // HTML Tag
+      ;/^<.+\>/.test(line)
+      && (todoDoc += line)
+
+      // Paragraph
+      ;/^[^#<>`-]/.test(line)
+      && (todoDoc += '<p>' + line + '</p>')
+
       // H1
       ;/^# /.test(line)
       && (todoDoc += '<h1>' + line.replace(/^# /, '') + '</h1>')
@@ -51,10 +59,6 @@ function todoML() {
       // H6
       ;/^###### /.test(line)
       && (todoDoc += '<h6>' + line.replace(/^###### /, '') + '</h6>')
-
-      // Paragraph
-      ;/^[^#>`-]/.test(line)
-      && (todoDoc += '<p>' + line + '</p>')
 
       // Blockquote
       ;/^\> /.test(line)
