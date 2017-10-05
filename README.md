@@ -22,6 +22,18 @@ TodoML is similar to markdown, but much more simplified. It's a Domain-Specific 
 
 Within a TodoML document, each line is considered a separate thing. What HTML a line becomes is determined by the first few characters from the start of the line.
 
+### HTML
+
+Any line starting with a `<` will be passed through as raw HTML.
+
+### Code
+
+Within a line, any text that appears between pairs of `\`` characters will be wrapped in HTML `<code>` tags.
+
+### Hyperlinks
+
+Similar to markdown, within any line hyperlinks can be defined with the follow synax `[link text](path/to/file)` where the `link text` is the text you want to display and the `path/to/file` is the URL you want to create a link to. These will be wrapped in an HTML `<a>` tag with the `path/to/file` as the value of the `href=""` attribute.
+
 ### Paragraph
 
 Lines with no special characters in TodoML get wrapped in HTML `<p>` tags.

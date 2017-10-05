@@ -1,7 +1,7 @@
 /*
 
 # TodoML Interpreter
-version 0.0.1
+version 0.0.2
 
 A lightweight markdown-like markup language for todo lists
 
@@ -27,6 +27,34 @@ function todoML() {
     for (var j=0; j<source.length; j++) {
 
       var line = source[j].replace(/^\s+/, '')
+
+      // Code
+      line = line.replace(/`([^`]+)`/g, function(string, match) {
+
+        return '<code>' + match + '</code>'
+
+      })
+
+      // Hyperlink
+      line = line.replace(/\[([^\]]+)\]\(([^\)]+)\)/g, function(string, text, link) {
+
+        return '<a href="' + link + '">' + text + '</a>'
+
+      })
+
+      // Empty Checkbox
+      line = line.replace(/\[ \]/g, function(string, match) {
+
+        return '<input type=checkbox>'
+
+      })
+
+      // Checked Checkbox
+      line = line.replace(/\[[xX]\]/g, function(string, match) {
+
+        return '<input type=checkbox checked>'
+
+      })
 
       // HTML Tag
       ;/^<.+\>/.test(line)
@@ -61,20 +89,20 @@ function todoML() {
       && (todoDoc += '<h6>' + line.replace(/^###### /, '') + '</h6>')
 
       // Blockquote
-      ;/^\> /.test(line)
+      ;/^> /.test(line)
       && (todoDoc += '<blockquote>' + line.replace(/^\> /, '') + '</blockquote>')
 
       // List item
-      ;/^- [^\[]/.test(line)
+      ;/^- [^\[<]/.test(line)
       && (todoDoc += '<ul><li>' + line.replace(/^- /, '') + '</li></ul>')
 
       // Empty checkbox
-      ;/^- \[ \]/.test(line)
-      && (todoDoc += '<label><ul><li><input type=checkbox>' + line.replace(/^- \[ \]/, '') + '</li></ul></label>')
+      ;/^- <input type=checkbox>/.test(line)
+      && (todoDoc += '<label><ul><li><input type=checkbox>' + line.replace(/^- <input type=checkbox>/, '') + '</li></ul></label>')
 
       // Checked checkbox
-      ;/^- \[x\]/.test(line)
-      && (todoDoc += '<label><ul><li><input type=checkbox checked>' + line.replace(/^- \[x\]/, '') + '</li></ul></label>')
+      ;/^- <input type=checkbox checked>/.test(line)
+      && (todoDoc += '<label><ul><li><input type=checkbox checked>' + line.replace(/^- <input type=checkbox checked>/, '') + '</li></ul></label>')
 
     }
 
