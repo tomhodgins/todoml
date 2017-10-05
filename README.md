@@ -28,7 +28,7 @@ Any line starting with a `<` will be passed through as raw HTML.
 
 ### Code
 
-Within a line, any text that appears between pairs of `\`` characters will be wrapped in HTML `<code>` tags.
+Within a line, any text that appears between pairs of <code>\`</code> backtick characters will be wrapped in HTML `<code>` tags.
 
 ### Hyperlinks
 
