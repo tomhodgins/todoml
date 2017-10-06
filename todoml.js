@@ -1,7 +1,7 @@
 /*
 
 # TodoML Interpreter
-version 0.0.2
+version 0.0.3
 
 A lightweight markdown-like markup language for todo lists
 
@@ -64,29 +64,12 @@ function todoML() {
       ;/^[^#<>`-]/.test(line)
       && (todoDoc += '<p>' + line + '</p>')
 
-      // H1
-      ;/^# /.test(line)
-      && (todoDoc += '<h1>' + line.replace(/^# /, '') + '</h1>')
+      // Heading
+      var heading = line.match(/^(#+) /)
+      var tag = heading && ('h' + heading[1].length)
 
-      // H2
-      ;/^## /.test(line)
-      && (todoDoc += '<h2>' + line.replace(/^## /, '') + '</h2>')
-
-      // H3
-      ;/^### /.test(line)
-      && (todoDoc += '<h3>' + line.replace(/^### /, '') + '</h3>')
-
-      // H4
-      ;/^#### /.test(line)
-      && (todoDoc += '<h4>' + line.replace(/^#### /, '') + '</h4>')
-
-      // H5
-      ;/^##### /.test(line)
-      && (todoDoc += '<h5>' + line.replace(/^##### /, '') + '</h5>')
-
-      // H6
-      ;/^###### /.test(line)
-      && (todoDoc += '<h6>' + line.replace(/^###### /, '') + '</h6>')
+      heading
+      && (todoDoc += '<' + tag + '>' + line.replace(/^#+ /, '') + '</' + tag +'>')
 
       // Blockquote
       ;/^> /.test(line)
