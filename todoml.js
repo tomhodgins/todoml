@@ -9,6 +9,7 @@ A lightweight markdown-like markup language for todo lists
 
 Write todoML inside <script type="text/todo"> tags inside HTML and include this JavaScript.
 
+- website: https://github.com/tomhodgins/todoml
 - author: Tommy Hodgins
 - license: MIT
 
