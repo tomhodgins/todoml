@@ -2,6 +2,8 @@
 
 **a simple markdown-like syntax for composing todo lists**
 
+![](https://i.imgur.com/BRQd8Ey.gif)
+
 ## Usage
 
 Write todoML inside <script type="text/todo"> tags inside HTML and include `todoml.js`:
