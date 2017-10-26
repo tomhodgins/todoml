@@ -30,9 +30,15 @@ blockquote {
   color: rgba(0,0,0,.7);
   margin: 1em 0;
   line-height: 1.4;
-  color: #e2e;
+  color: #a2a;
   background: #fef;
   border-left: 3px solid currentColor;
+}
+blockquote a {
+  color: #e6e;
+}
+blockquote code {
+  background: currentColor;
 }
 blockquote:not(pre) code {
   background: #fcf;
@@ -41,12 +47,18 @@ blockquote.level-2 {
   color: #292;
   background: #efe;
 }
+blockquote.level-2 a {
+  color: #6c6;
+}
 blockquote.level-2:not(pre) code {
   background: #cfc;
 }
 blockquote.level-3 {
   color: #22e;
   background: #eef;
+}
+blockquote.level-3 a {
+  color: #66f;
 }
 blockquote.level-3:not(pre) code {
   background: #ccf;
