@@ -26,7 +26,7 @@ Within a TodoML document, each line is considered a separate thing. What HTML a 
 
 ### Headings
 
-Lines beginning with 1-6 `#` charcters (`# `, `## `, `### `, `#### `, `##### `, `###### `) in TodoML get wrapped with the corresponding HTML heading tag from `<h1>`-`<h6>`.
+Lines beginning with 1-6 `#` characters (`#`, `##`, `###`, `####`, `#####`, `######`) in TodoML get wrapped with the corresponding HTML heading tag from `<h1>`-`<h6>`.
 
 ### Paragraph
 
@@ -66,7 +66,7 @@ Lines starting with `- [ ]` or `- [x]` become checkboxes, and get wrapped in `<l
 
 ### Blockquotes
 
-Lines beginning with 1-3 `>` characters get wrapped in HTML `<blockquote>` tags, with a class of `level-n` where `n` is equal to the blockquote level.
+Lines beginning with 1-3 `>` characters (`>`, `>>`, `>>>`) get wrapped in HTML `<blockquote>` tags, with a class of `level-n` where `n` is equal to the blockquote level.
 
 ### HTML
 
