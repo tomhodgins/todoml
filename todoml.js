@@ -1,7 +1,7 @@
 /*
 
 # TodoML Interpreter
-version 0.0.3
+version 0.0.4
 
 A lightweight markdown-like markup language for todo lists
 
@@ -29,32 +29,35 @@ function todoML() {
 
       var line = source[j].replace(/^\s+/, '')
 
+
+      // Bold
+      line = line.replace(/(\*\*)([^\*]+)(\*\*)/g, function(string, open, match, close) {
+        return '<strong>' + match + '</strong>'
+      })
+
+      // Italic
+      line = line.replace(/(\*)([^\*]+)(\*)/g, function(string, open, match, close) {
+        return '<em>' + match + '</em>'
+      })
+
+      // Underline
+      line = line.replace(/(_)([\w\s]+)(_)/g, function(string, open, match, close) {
+        return '<u>' + match + '</u>'
+      })
+
+      // Strikethrough
+      line = line.replace(/(~)([^~]+)(~)/g, function(string, open, match, close) {
+        return '<del>' + match + '</del>'
+      })
+
       // Code
       line = line.replace(/`([^`]+)`/g, function(string, match) {
-
         return '<code>' + match + '</code>'
-
       })
 
       // Hyperlink
       line = line.replace(/\[([^\]]+)\]\(([^\)]+)\)/g, function(string, text, link) {
-
         return '<a href="' + link + '">' + text + '</a>'
-
-      })
-
-      // Empty Checkbox
-      line = line.replace(/\[ \]/g, function(string, match) {
-
-        return '<input type=checkbox>'
-
-      })
-
-      // Checked Checkbox
-      line = line.replace(/\[[xX]\]/g, function(string, match) {
-
-        return '<input type=checkbox checked>'
-
       })
 
       // HTML Tag
@@ -66,27 +69,30 @@ function todoML() {
       && (todoDoc += '<p>' + line + '</p>')
 
       // Heading
-      var heading = line.match(/^(#+) /)
+      var heading = line.match(/^(#+)\s*/)
       var tag = heading && ('h' + heading[1].length)
 
-      heading
-      && (todoDoc += '<' + tag + '>' + line.replace(/^#+ /, '') + '</' + tag +'>')
+      ;heading
+      && (todoDoc += '<' + tag + '>' + line.replace(/^#+\s*/, '') + '</' + tag +'>')
 
       // Blockquote
-      ;/^> /.test(line)
-      && (todoDoc += '<blockquote>' + line.replace(/^\> /, '') + '</blockquote>')
+      var blockquote = line.match(/^(>+)\s*/)
+      var level = blockquote && ('class="level-' + blockquote[1].length + '"')
+
+      ;blockquote
+      && (todoDoc += '<blockquote ' + level + '>' + line.replace(/^(>+)\s*/, '') + '</blockquote>')
 
       // List item
-      ;/^- [^\[<]/.test(line)
+      ;/^-\s+[^\[]/.test(line)
       && (todoDoc += '<ul><li>' + line.replace(/^- /, '') + '</li></ul>')
 
       // Empty checkbox
-      ;/^- <input type=checkbox>/.test(line)
-      && (todoDoc += '<label><ul><li><input type=checkbox>' + line.replace(/^- <input type=checkbox>/, '') + '</li></ul></label>')
+      ;/^-\s*\[\s+\]/.test(line)
+      && (todoDoc += '<label><ul><li><input type=checkbox>' + line.replace(/^-\s*\[\s+\]/, '') + '</li></ul></label>')
 
       // Checked checkbox
-      ;/^- <input type=checkbox checked>/.test(line)
-      && (todoDoc += '<label><ul><li><input type=checkbox checked>' + line.replace(/^- <input type=checkbox checked>/, '') + '</li></ul></label>')
+      ;/^-\s*\[[xX]\]/.test(line)
+      && (todoDoc += '<label><ul><li><input type=checkbox checked>' + line.replace(/^-\s*\[[xX]\]/, '') + '</li></ul></label>')
 
     }
 
