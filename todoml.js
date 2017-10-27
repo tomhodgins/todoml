@@ -1,7 +1,7 @@
 /*
 
 # TodoML Interpreter
-version 0.0.4
+version 0.0.5
 
 A lightweight markdown-like markup language for todo lists
 
@@ -21,78 +21,98 @@ function todoML() {
 
   for (var i=0; i<script.length; i++) {
 
-    var output = document.createElement('div')
-    var source = script[i].textContent.split('\n')
     var todoDoc = ''
+    var source = script[i].textContent.split('\n')
+    var output = document.createElement('div')
 
     for (var j=0; j<source.length; j++) {
 
       var line = source[j].replace(/^\s+/, '')
 
-
       // Bold
-      line = line.replace(/(\*\*)([^\*]+)(\*\*)/g, function(string, open, match, close) {
-        return '<strong>' + match + '</strong>'
-      })
+      line = line.replace(/(\*\*)([^\*]+)(\*\*)/g,
+               function(string, open, match, close) {
+                 return '<strong>' + match + '</strong>' })
 
       // Italic
-      line = line.replace(/(\*)([^\*]+)(\*)/g, function(string, open, match, close) {
-        return '<em>' + match + '</em>'
-      })
+      line = line.replace(/(\*)([^\*]+)(\*)/g,
+               function(string, open, match, close) {
+                 return '<em>' + match + '</em>' })
 
       // Underline
-      line = line.replace(/(_)([\w\s]+)(_)/g, function(string, open, match, close) {
-        return '<u>' + match + '</u>'
-      })
+      line = line.replace(/(_)([\w\s]+)(_)/g,
+               function(string, open, match, close) {
+                 return '<u>' + match + '</u>' })
 
       // Strikethrough
-      line = line.replace(/(~)([^~]+)(~)/g, function(string, open, match, close) {
-        return '<del>' + match + '</del>'
-      })
+      line = line.replace(/(~)([^~]+)(~)/g,
+               function(string, open, match, close) {
+                 return '<del>' + match + '</del>' })
 
       // Code
-      line = line.replace(/`([^`]+)`/g, function(string, match) {
-        return '<code>' + match + '</code>'
-      })
+      line = line.replace(/`([^`]+)`/g,
+               function(string, match) {
+                 return '<code>' + match + '</code>' })
 
       // Hyperlink
-      line = line.replace(/\[([^\]]+)\]\(([^\)]+)\)/g, function(string, text, link) {
-        return '<a href="' + link + '">' + text + '</a>'
-      })
+      line = line.replace(/\[([^\]]+)\]\(([^\)]+)\)/g,
+               function(string, text, link) {
+                 return '<a href="' + link + '">' + text + '</a>' })
 
-      // HTML Tag
-      ;/^<.+\>/.test(line)
-      && (todoDoc += line)
+      // Raw HTML Tag
+      ;/^<.+\>/.test(line) &&
+        (todoDoc += line)
 
       // Paragraph
-      ;/^[^#<>`-]/.test(line)
-      && (todoDoc += '<p>' + line + '</p>')
+      ;/^[^#<>`-]/.test(line) &&
+        (todoDoc +=
+          '<p>'
+          + line
+          + '</p>')
 
       // Heading
       var heading = line.match(/^(#+)\s*/)
       var tag = heading && ('h' + heading[1].length)
 
-      ;heading
-      && (todoDoc += '<' + tag + '>' + line.replace(/^#+\s*/, '') + '</' + tag +'>')
+      ;heading &&
+        (todoDoc +=
+          '<' + tag + '>'
+          + line.replace(/^#+\s*/, '')
+          + '</' + tag + '>')
 
       // Blockquote
       var blockquote = line.match(/^(>+)\s*/)
-      var level = blockquote && ('class="level-' + blockquote[1].length + '"')
+      var level = blockquote &&
+                    ('class="level-' + blockquote[1].length + '"')
 
-      ;blockquote
-      && (todoDoc += '<blockquote ' + level + '>' + line.replace(/^(>+)\s*/, '') + '</blockquote>')
+      ;blockquote &&
+        (todoDoc +=
+          '<blockquote ' + level + '>'
+          + line.replace(/^(>+)\s*/, '')
+          + '</blockquote>')
 
       // List item
-      ;/^-\s+[^\[]/.test(line)
-      && (todoDoc += '<ul><li>' + line.replace(/^- /, '') + '</li></ul>')
+      ;/^-\s+[^\[]/.test(line) &&
+        (todoDoc +=
+          '<ul><li>'
+          + line.replace(/^- /, '')
+          + '</li></ul>')
 
       // Empty checkbox
-      ;/^-\s*\[\s+\]/.test(line)
-      && (todoDoc += '<label><ul><li><input type=checkbox>' + line.replace(/^-\s*\[\s+\]/, '') + '</li></ul></label>')
+      ;/^-\s*\[\s+\]/.test(line) &&
+        (todoDoc +=
+          '<label><ul><li>'
+          + '<input type=checkbox>'
+          + line.replace(/^-\s*\[\s+\]/, '')
+          + '</li></ul></label>')
 
       // Checked checkbox
-      ;/^-\s*\[[xX]\]/.test(line)
-      && (todoDoc += '<label><ul><li><input type=checkbox checked>' + line.replace(/^-\s*\[[xX]\]/, '') + '</li></ul></label>')
+      ;/^-\s*\[[xX]\]/.test(line) &&
+      (todoDoc +=
+        '<label><ul><li>'
+        + '<input type=checkbox checked>'
+        + line.replace(/^-\s*\[[xX]\]/, '')
+        + '</li></ul></label>')
 
     }
 
